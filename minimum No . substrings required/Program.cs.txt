@@ -1,0 +1,70 @@
+ static int ReqNoOfSubstring(string initial,string goal)
+        {
+            bool match = true;
+
+            int count = 1;
+            int initialcurrentindex = 0;
+            for (int i = 0; i < goal.Length; i++)
+            {
+			//if a character is not present i    
+                if (!initial.Contains(goal[i].ToString()))
+                {
+                    return -1;
+                }
+                else
+                {
+
+                    int goalCurrentIndex = i;
+			//if characters length initial has reached end point so is refreshed from start                 
+		if (match && initialcurrentindex== initial.Length)
+                    {
+                        initialcurrentindex = 0;
+                        count++;
+                        match = false;
+                    }
+                    for (int j = initialcurrentindex; j < initial.Length; j++)
+                    {
+			//if character character matches initial character
+                        if(initial[j] == goal[goalCurrentIndex] && i < goal.Length-1)
+                        {
+                            match= true;
+                            initialcurrentindex++;
+                            if (goalCurrentIndex < goal.Length - 1) { goalCurrentIndex++; };
+                            break;
+                        }
+			//if its the last character of goal and is following a sequence of initial
+                        else if (initial[j] == goal[goalCurrentIndex] && match && i == goal.Length - 1)
+                        {
+                            break;
+
+                        }
+	//if its the last character of goal and is not following a sequence of initial(determined by !match)
+                        else if (i == goal.Length - 1 && !match)
+                        {
+                            count++;
+                            break;
+                        }
+		//if character of goal doesnot match character of initial so the sequence is broken
+                        else if (initial[j] != goal[goalCurrentIndex]&& match && i < goal.Length - 1)
+                         {
+                            count++;
+                            match = false;
+                           
+                            j = -1;
+                        }
+       //if character of goal doesnot match character of initial so the sequence is broken and character is last
+                        else if(initial[j] != goal[goalCurrentIndex] && match && i == goal.Length - 1)
+                        {
+                            match = false;
+                            initialcurrentindex = 0;
+                            j = -1;
+
+                        }
+                        
+                        
+                }
+    }
+}
+
+        return count;
+        }
